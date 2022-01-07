@@ -1,0 +1,41 @@
+{% extends 'gui/base.html' %}
+{% load static %}
+
+    {% block page_info %}
+        <title>Execution du bot</title>
+    {% endblock %}
+
+    {% block content %}
+
+        <div class="jumbotron bg-secondary text-white py-5">
+            <h1 class="text-center">Page d'exécution du robot</h1>
+        </div>
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-7 mx-auto">
+                    <form id="launchBot" class="card">
+                        <div class="card-header">
+                            <h2 class="text-center">Lancer une exécution du robot</h2>
+                        </div>
+                        <div class="form-group">
+                            <label for="site">Url du site à cliquer</label>
+                            <input class="form-control" name="site" id="site">
+                        </div>
+                        <div class="form-group">
+                            <label for="query">Requête à écrire</label>
+                            <input class="form-control" name="query" id="query">
+                        </div>
+                        <div class="form-group">
+                            <label for="proxy">PROXY</label>
+                            <select class="form-control" name="proxy" id="proxy">
+                                <option value="FR">FR</option>
+                                <option value="US">US</option>
+                            </select>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-warning">Launch Bot</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
