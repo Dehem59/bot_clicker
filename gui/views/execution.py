@@ -13,15 +13,17 @@ class ExecutionView(View):
         return render(request, "gui/execution.html", {})
 
     def post(self, request, *args, **kwargs):
-
         cpt = 0
         nb_proxy = int(request.POST["proxy"])
         query = request.POST["query"]
-        headless = request.POST["headless"].lower() == "true"
+        domaine = request.POST["domaine"]
+        online = request.POST["headless"].lower() == "true"
         for name, proxy in PROXY.items():
             try:
-                tmp_bot = BotClickerV1(proxy=proxy, query=query, headless=headless)
+                tmp_bot = BotClickerV1(proxy=proxy, query=query, domain=domaine, online=online)
                 res = tmp_bot.execute()
+                if not res:
+                    return JsonResponse({"detail": False, "result": "you're not in results pages"}, status=200)
                 cpt += 1
                 if cpt == nb_proxy:
                     return JsonResponse({"detail": True, "result": res}, status=200)

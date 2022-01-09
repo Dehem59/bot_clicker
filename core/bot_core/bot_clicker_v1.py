@@ -2,6 +2,8 @@ import os
 import random
 import time
 
+from django.db import transaction
+
 from bo.models.siteweb import SiteWeb
 from bo.models.requete import Requete
 from bo.models.aclicker import Aclicker
@@ -15,11 +17,11 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 # GOOGLE_CHROME_BIN = os.getenv("GOOGLE_CHROME_BIN")
 # CHROMEDRIVER_PATH = os.getenv("CHROMEDRIVER_PATH")
-RANDOM_VARIABLE = {"scroll": [37, 58, 76, 117, 221], "delay": [1.05, 1.6, 1.2, 2.11, 3.07, 3.34]}
+RANDOM_VARIABLE = {"scroll": [37, 58, 76, 117, 221], "delay": [0.05, 0.2, 0.2, 0.11, 0.07, 0.34]}
 
 class BotClickerV1:
 
-    def __init__(self, proxy, query, domain=None, online=True):
+    def __init__(self, proxy, query, domain, online=True):
         """
 
         :param proxy: proxy dict
@@ -42,8 +44,6 @@ class BotClickerV1:
             }
         }
         chrome_options = webdriver.ChromeOptions()
-
-        chrome_options.add_argument("--headless")
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument('--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X)'
@@ -93,14 +93,16 @@ class BotClickerV1:
             last_offset += offset
 
     def database_maj(self,found,delay,pos):
-        r=Requete.objects.create(libelle= self.query)
-        s=SiteWeb.objects.get_or_create(url=self.driver.current_url)
-        s.requetes.add(r, through_defaults={'resultat': found,'proxy': self.proxy["host"], 'timescrolling':delay, 'positition_page':pos})
+        with transaction.atomic():
+            r=Requete.objects.create(libelle= self.query)
+            s,status=SiteWeb.objects.get_or_create(url=self.driver.current_url)
+            s.requetes.add(r, through_defaults={'resultat': found,'proxy': self.proxy["host"], 'timescrolling':delay, 'positition_page':pos})
 
 
     def execute(self):
         i = 0
-        while i <= 50:
+        found = False
+        while i < 50 and not found:
             self.driver.get(f'https://www.google.com/search?q={self.query}&start={i}')
             i += 10
             time.sleep(1)
@@ -108,9 +110,10 @@ class BotClickerV1:
                 time_before = time.time()
                 self.website_action()
                 time_after = time.time()
-                delay = time_before-time_after
-                self.database_maj("Found",delay, i)
-            else:
-                self.database_maj("NotFound",0, i)
-                print("Website not in 1st page")
-                self.driver.close()
+                delay = time_after-time_before
+                self.database_maj("Found",delay, i//10)
+                found = True
+        if not found:
+            self.database_maj("NotFound", 0, i)
+            self.driver.close()
+        return found

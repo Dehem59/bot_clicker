@@ -5,7 +5,8 @@ $(document).ready(function () {
         var data = {
             "query": $("#query").val(), 
             "headless": $("#headless").is(":checked"),
-            "proxy": $("#proxy").val()
+            "proxy": $("#proxy").val(),
+            "domaine" : $("#domaine").val()
         }
 
         console.log(data);
