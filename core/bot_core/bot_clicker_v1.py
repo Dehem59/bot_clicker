@@ -49,8 +49,8 @@ class BotClickerV1:
             'geolocation': True
         })
 
-        driver = webdriver.Chrome(ChromeDriverManager().install(), executable_path=CHROMEDRIVER_PATH,
-                                  chrome_options=chrome_options, seleniumwire_options=options)
+        driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options,
+                                  seleniumwire_options=options)
         return driver
 
     def find_res_natural(self):
