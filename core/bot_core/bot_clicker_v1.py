@@ -61,16 +61,19 @@ class BotClickerV1:
 
     def find_res_ads(self):
         annonces = self.driver.find_elements(By.CSS_SELECTOR, "[aria-label=Annonces] .uEierd")
+        result = []
         if len(annonces) > 0:
             for annonce in annonces:
                 actions = ActionChains(self.driver)
                 actions.move_to_element(annonce).perform()
                 time.sleep(0.5)
                 annonce.find_element(By.CSS_SELECTOR, "[role=heading]").click()
-                self.website_action()
+                url, title = self.website_action()
+                result.append({"url": url, "title": title})
                 time.sleep(1.2)
                 self.driver.back()
                 time.sleep(2)
+        return result
 
     def website_action(self):
         """
@@ -79,24 +82,27 @@ class BotClickerV1:
         """
         delay_sleep = 1 if self.mode else 2
         print("On website")
-        print(self.driver.current_url)
+
         try:
-            print(self.driver.find_element(By.TAG_NAME, "h1").text)
+            title = self.driver.find_element(By.TAG_NAME, "h1").text
         except:
-            print(self.driver.find_element(By.TAG_NAME, "p").text)
-        for offset in range(0, 910, 70):
-            self.driver.execute_script(f"window.scrollTo({offset}, {offset + 70})")
-            time.sleep(delay_sleep)
+            title = self.driver.find_element(By.TAG_NAME, "p").text
+        # for offset in range(0, 910, 70):
+        #     self.driver.execute_script(f"window.scrollTo({offset}, {offset + 70})")
+        time.sleep(delay_sleep)
+        return self.driver.current_url, title
 
     def execute(self):
         self.driver.get(f'https://www.google.com/search?q={self.query}')
-        time.sleep(1.5)
+        time.sleep(1)
+        result = []
         if self.mode:
-            self.find_res_ads()
+            result = self.find_res_ads()
         else:
             found = self.find_res_natural()
             self.website_action()
             if not found:
                 print("Website not in 1st page")
+                self.driver.close()
                 exit()
-        self.driver.close()
+        return result

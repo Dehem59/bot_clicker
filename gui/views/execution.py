@@ -21,10 +21,10 @@ class ExecutionView(View):
         for name, proxy in PROXY.items():
             try:
                 tmp_bot = BotClickerV1(proxy=proxy, query=query, headless=headless)
-                tmp_bot.execute()
+                res = tmp_bot.execute()
                 cpt += 1
                 if cpt == nb_proxy:
-                    return JsonResponse({"detail": True}, status=200)
+                    return JsonResponse({"detail": True, "result": res}, status=200)
             except Exception as exc:
                 print(exc)
                 return JsonResponse({"detail": exc.args}, status=400)
