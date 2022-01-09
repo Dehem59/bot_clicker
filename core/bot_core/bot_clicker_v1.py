@@ -7,8 +7,8 @@ from seleniumwire import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 
 
-GOOGLE_CHROME_BIN = os.getenv("GOOGLE_CHROME_BIN")
-CHROMEDRIVER_PATH = os.getenv("CHROMEDRIVER_PATH")
+# GOOGLE_CHROME_BIN = os.getenv("GOOGLE_CHROME_BIN")
+# CHROMEDRIVER_PATH = os.getenv("CHROMEDRIVER_PATH")
 
 
 class BotClickerV1:
@@ -34,25 +34,15 @@ class BotClickerV1:
             }
         }
         chrome_options = webdriver.ChromeOptions()
+        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument('--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X)'
                                     ' AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e '
                                     'Safari/602.1')
 
-        chrome_options.binary_location = GOOGLE_CHROME_BIN
-        chrome_options.add_argument('--disable-gpu')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument("--disable-extensions")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--remote-debugging-port=9222")
-
-        if headless:
-            chrome_options.add_argument('--headless')
-
-        chrome_options.add_experimental_option('prefs', {
-            'geolocation': True
-        })
-
-        driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options,
+        driver = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH"), chrome_options=chrome_options,
                                   seleniumwire_options=options)
         return driver
 
@@ -88,6 +78,11 @@ class BotClickerV1:
         :return:
         """
         delay_sleep = 1 if self.mode else 2
+        print("On website")
+        try:
+            print(self.driver.find_element(By.TAG_NAME, "h1"))
+        except:
+            print(self.driver.find_element(By.TAG_NAME, "p"))
         for offset in range(0, 910, 70):
             self.driver.execute_script(f"window.scrollTo({offset}, {offset + 70})")
             time.sleep(delay_sleep)
@@ -95,6 +90,7 @@ class BotClickerV1:
     def execute(self):
         self.driver.get(f'https://www.google.com/search?q={self.query}')
         time.sleep(1.5)
+        print(self.driver.page_source)
         if self.mode:
             self.find_res_ads()
         else:
