@@ -18,7 +18,6 @@ options = {
     }
 }
 
-# replace 'your_absolute_path' with your chrome binary's aboslute path
 driver = webdriver.Chrome(ChromeDriverManager().install(), seleniumwire_options=options)
 
 driver.get('https://google.com')
