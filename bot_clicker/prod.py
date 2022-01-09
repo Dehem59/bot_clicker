@@ -78,8 +78,12 @@ WSGI_APPLICATION = 'bot_clicker.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'den9sk0sivko16',
+        'USER': 'ugnphcojibkeoq',
+        'PASSWORD': 'ce9e6ff8f6d5536e7af25cdde375f2797d091ec7b07d9c3f12e7416458bf5861',
+        'HOST': 'ec2-176-34-105-15.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
