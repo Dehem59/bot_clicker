@@ -90,7 +90,6 @@ class BotClickerV1:
     def execute(self):
         self.driver.get(f'https://www.google.com/search?q={self.query}')
         time.sleep(1.5)
-        print(self.driver.page_source)
         if self.mode:
             self.find_res_ads()
         else:
