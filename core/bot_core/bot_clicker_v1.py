@@ -1,9 +1,14 @@
+import os
 import time
 
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from seleniumwire import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
+
+
+GOOGLE_CHROME_BIN = os.getenv("GOOGLE_CHROME_BIN")
+CHROMEDRIVER_PATH = os.getenv("CHROMEDRIVER_PATH")
 
 
 class BotClickerV1:
@@ -32,6 +37,11 @@ class BotClickerV1:
         chrome_options.add_argument('--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X)'
                                     ' AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e '
                                     'Safari/602.1')
+
+        chrome_options.binary_location = GOOGLE_CHROME_BIN
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--no-sandbox')
+
         if headless:
             chrome_options.add_argument('--headless')
 
@@ -39,8 +49,8 @@ class BotClickerV1:
             'geolocation': True
         })
 
-        driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=chrome_options,
-                                  seleniumwire_options=options)
+        driver = webdriver.Chrome(ChromeDriverManager().install(), executable_path=CHROMEDRIVER_PATH,
+                                  chrome_options=chrome_options, seleniumwire_options=options)
         return driver
 
     def find_res_natural(self):
