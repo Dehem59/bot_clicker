@@ -10,7 +10,9 @@ colorama==0.4.4
 configparser==5.2.0
 crayons==0.4.0
 cryptography==36.0.1
+dj-database-url==0.5.0
 Django==4.0.1
+django-heroku==0.3.1
 gunicorn==20.1.0
 h11==0.12.0
 h2==4.1.0
@@ -19,6 +21,7 @@ hyperframe==6.0.1
 idna==3.3
 kaitaistruct==0.9
 outcome==1.1.0
+psycopg2==2.9.3
 pyasn1==0.4.8
 pycparser==2.21
 pydivert==2.1.0
