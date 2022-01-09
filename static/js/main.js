@@ -17,10 +17,11 @@ $(document).ready(function () {
             data: data,
             success: function (response) {
                 console.log(response);
-                $("body").append($(`<div class='alert alert-success'>${JSON.stringify(response)}`))
+                $("body").append($(`<div class='alert alert-success'>${JSON.stringify(response)}</div>`))
             },
             error: (response) => {
                 console.log(response);
+                $("body").append($(`<div class='alert alert-danger'>${JSON.stringify(response.responseJSON)}</div>`))
             }
         });
     })
