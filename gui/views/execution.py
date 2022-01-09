@@ -26,6 +26,7 @@ class ExecutionView(View):
                 if cpt == nb_proxy:
                     return JsonResponse({"detail": True}, status=200)
             except Exception as exc:
+                print(exc)
                 return JsonResponse({"detail": exc.args}, status=400)
 
 

@@ -18,6 +18,9 @@ $(document).ready(function () {
             success: function (response) {
                 console.log(response);
                 $("body").append($(`<div class='alert alert-success'>${JSON.stringify(response)}`))
+            },
+            error: (response) => {
+                console.log(response);
             }
         });
     })
