@@ -80,9 +80,9 @@ class BotClickerV1:
         delay_sleep = 1 if self.mode else 2
         print("On website")
         try:
-            print(self.driver.find_element(By.TAG_NAME, "h1"))
+            print(self.driver.find_element(By.TAG_NAME, "h1").text)
         except:
-            print(self.driver.find_element(By.TAG_NAME, "p"))
+            print(self.driver.find_element(By.TAG_NAME, "p").text)
         for offset in range(0, 910, 70):
             self.driver.execute_script(f"window.scrollTo({offset}, {offset + 70})")
             time.sleep(delay_sleep)
