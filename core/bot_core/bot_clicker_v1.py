@@ -79,6 +79,7 @@ class BotClickerV1:
         """
         delay_sleep = 1 if self.mode else 2
         print("On website")
+        print(self.driver.current_url)
         try:
             print(self.driver.find_element(By.TAG_NAME, "h1").text)
         except:
