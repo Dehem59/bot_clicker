@@ -49,7 +49,6 @@ class BotClickerV1:
     def find_res_natural(self):
         result = self.driver.find_element(By.ID, "rso")
         for res in result.find_elements(By.CSS_SELECTOR, ".uUPGi"):
-            print(res.text)
             actions = ActionChains(self.driver)
             actions.move_to_element(res).perform()
             presentation = res.find_element(By.CSS_SELECTOR, "[role=presentation]")
@@ -72,7 +71,7 @@ class BotClickerV1:
                 result.append({"url": url, "title": title})
                 time.sleep(1.2)
                 self.driver.back()
-                time.sleep(2)
+                time.sleep(1)
         return result
 
     def website_action(self):
@@ -90,7 +89,7 @@ class BotClickerV1:
         # for offset in range(0, 910, 70):
         #     self.driver.execute_script(f"window.scrollTo({offset}, {offset + 70})")
         time.sleep(delay_sleep)
-        return self.driver.current_url, title
+        return str(self.driver.current_url), title
 
     def execute(self):
         self.driver.get(f'https://www.google.com/search?q={self.query}')
