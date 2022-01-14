@@ -10,7 +10,7 @@ class ExecutionView(View):
     http_method_names = ["get", "post", "patch"]
 
     def get(self, request, *args, **kwargs):
-        return render(request, "gui/execution.html", {})
+        return render(request, "gui/execution.html", {"nb_proxy": len(PROXY)})
 
     def post(self, request, *args, **kwargs):
         cpt = 0

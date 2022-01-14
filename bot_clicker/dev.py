@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'gui.apps.GuiConfig',
     'core.apps.CoreConfig',
     'bo.apps.BoConfig',
@@ -82,10 +83,10 @@ WSGI_APPLICATION = 'bot_clicker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'den9sk0sivko16',
-        'USER': 'ugnphcojibkeoq',
-        'PASSWORD': 'ce9e6ff8f6d5536e7af25cdde375f2797d091ec7b07d9c3f12e7416458bf5861',
-        'HOST': 'ec2-176-34-105-15.eu-west-1.compute.amazonaws.com',
+        'NAME': 'd7pncqjv279rdm',
+        'USER': 'kehhkpvphkfifj',
+        'PASSWORD': '4b54d7149eb2bc16cbd83aa3d3e74fee8766fdbfb86243155e84d77ececcf90e',
+        'HOST': 'ec2-52-209-111-18.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
 }

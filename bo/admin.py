@@ -1,6 +1,6 @@
 from django.contrib import admin
-from bo.models import SiteWeb,Requete,Aclicker
-# Register your models here.
-admin.site.register(SiteWeb)
-admin.site.register(Requete)
-admin.site.register(Aclicker)
+from bo.models import __all__
+
+for model in __all__:
+    admin.site.register(model)
+
