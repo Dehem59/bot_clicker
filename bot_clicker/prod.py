@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django_extensions',
     'django.contrib.staticfiles',
+    'django_extensions',
     'gui.apps.GuiConfig',
     'core.apps.CoreConfig',
     'bo.apps.BoConfig',
@@ -83,10 +83,10 @@ WSGI_APPLICATION = 'bot_clicker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'den9sk0sivko16',
-        'USER': 'ugnphcojibkeoq',
-        'PASSWORD': 'ce9e6ff8f6d5536e7af25cdde375f2797d091ec7b07d9c3f12e7416458bf5861',
-        'HOST': 'ec2-176-34-105-15.eu-west-1.compute.amazonaws.com',
+        'NAME': 'd7pncqjv279rdm',
+        'USER': 'kehhkpvphkfifj',
+        'PASSWORD': '4b54d7149eb2bc16cbd83aa3d3e74fee8766fdbfb86243155e84d77ececcf90e',
+        'HOST': 'ec2-52-209-111-18.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
 }
@@ -141,4 +141,27 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+##
+# CELERY
+##
+
+CELERYD_HIJACK_ROOT_LOGGER = False
+
+# http://celery.readthedocs.org/en/latest/configuration.html#celery-redirect-stdouts-level
+CELERY_REDIRECT_STDOUTS = True # par défaut
+CELERY_REDIRECT_STDOUTS_LEVEL = 'DEBUG'
+
+BROKER_URL = 'redis://:p76c2ba277f231f7f24330914975ee8ff3d9fa19c73ef6d95b5d83548ace48d57@ec2-54-195-203-100.eu-west-1.compute.amazonaws.com:7070'
+CELERY_RESULT_BACKEND = 'redis://:p76c2ba277f231f7f24330914975ee8ff3d9fa19c73ef6d95b5d83548ace48d57@ec2-54-195-203-100.eu-west-1.compute.amazonaws.com:7070'
+
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['json']  # Ignore other content
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Paris'
+CELERY_ENABLE_UTC = True
+
+CELERY_TRACK_STARTED = True
+
+CELERYD_POOL_RESTARTS = True
 django_heroku.settings(locals())

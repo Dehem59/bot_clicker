@@ -3,6 +3,7 @@ from django.views import View
 from django.shortcuts import render
 from core.bot_core.bot_clicker_v1 import BotClickerV1
 from core.bot_core.variable import PROXY
+from bot_clicker.tasks import test_task
 
 
 class ExecutionView(View):
@@ -18,6 +19,8 @@ class ExecutionView(View):
         query = request.POST["query"]
         domaine = request.POST["domaine"]
         online = request.POST["headless"].lower() == "true"
+        test_task.delay()
+
         for name, proxy in PROXY.items():
             try:
                 tmp_bot = BotClickerV1(proxy=proxy, query=query, domain=domaine, online=online)

@@ -61,10 +61,10 @@ class BotClickerV1:
             chrome_options.add_argument("--headless")
             chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
             driver = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH"), chrome_options=chrome_options,
-                                  seleniumwire_options=options)
+                                      seleniumwire_options=options)
         else:
             driver = webdriver.Chrome(ChromeDriverManager().install(), desired_capabilities=capabilities,
-                                  chrome_options=chrome_options, seleniumwire_options=options)
+                                      chrome_options=chrome_options, seleniumwire_options=options)
             driver.set_window_position(50, 0)
             driver.set_window_size(390, 844)
         return driver
