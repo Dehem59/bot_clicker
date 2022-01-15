@@ -25,20 +25,18 @@ MAX_TRY_GOOGLE = 2
 
 class BotClickerV1:
 
-    def __init__(self, proxy, query, domain, online=True):
+    def __init__(self, proxy, query, domain, user_agent, online=True):
         """
-
-        :param proxy: proxy dict
-        :param query: google like query example: "agence+web+lille"
+        init the bot clicker, user_agent is the description of an specific user agent
         """
         self.proxy = proxy
         self.query = query
         self.domain = domain
         self.online = online
-        self.driver = self.init_webdriver()
+        self.driver = self.init_webdriver(user_agent)
 
 
-    def init_webdriver(self):
+    def init_webdriver(self, user_agent):
 
         options = {
             'proxy': {
@@ -50,9 +48,7 @@ class BotClickerV1:
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument('--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X)'
-                                    ' AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e '
-                                    'Safari/602.1')
+        chrome_options.add_argument(f'--user-agent={user_agent}')
         capabilities = DesiredCapabilities.CHROME.copy()
         capabilities["device"] = "iPhone 12 Pro"
         capabilities["real_mobile"] = True
@@ -117,13 +113,24 @@ class BotClickerV1:
         nb_try += 1
         if nb_try < MAX_TRY_GOOGLE:
             try:
-                for i in range(4):
-                    # read more to make accept button visible
-                    read_more = self.driver.find_element(By.ID, "KByQx")
-                    read_more.click()
-                time.sleep(0.67)
+                for i in range(10):
+                    try:
+                        p = self.driver.find_elements(By.ID, "jYfXMb")
+                        last_offset = 0
+                        for i in p:
+                            loc = i.location
+                            self.driver.execute_script(f"window.scrollTo({last_offset}, {loc['y']})")
+                            last_offset = loc["y"]
+                        # read more to make accept button visible
+                        read_more = self.driver.find_element(By.ID, "KByQx")
+                        read_more.click()
+                        time.sleep(0.1)
+                    except:
+                        pass
+                time.sleep(1)
                 # Accept google condition
-                accept = self.driver.find_element(By.ID, "L2AGLb").find_element(By.CSS_SELECTOR, "div[role=none]")
+                accept = self.driver.find_element(By.CSS_SELECTOR, "button#L2AGLb")
+                print(accept.text)
                 accept.click()
                 return True
             except:

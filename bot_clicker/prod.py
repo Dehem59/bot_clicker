@@ -152,15 +152,14 @@ CELERYD_HIJACK_ROOT_LOGGER = False
 CELERY_REDIRECT_STDOUTS = True # par défaut
 CELERY_REDIRECT_STDOUTS_LEVEL = 'DEBUG'
 
-BROKER_URL = 'redis://:p76c2ba277f231f7f24330914975ee8ff3d9fa19c73ef6d95b5d83548ace48d57@ec2-54-195-203-100.eu-west-1.compute.amazonaws.com:7070'
-CELERY_RESULT_BACKEND = 'redis://:p76c2ba277f231f7f24330914975ee8ff3d9fa19c73ef6d95b5d83548ace48d57@ec2-54-195-203-100.eu-west-1.compute.amazonaws.com:7070'
-
+BROKER_URL = 'redis://redistogo:1b73a25a42689cbfda1f0ff854009caa@soapfish.redistogo.com:11662/'
+CELERY_RESULT_BACKEND = 'redis://redistogo:1b73a25a42689cbfda1f0ff854009caa@soapfish.redistogo.com:11662/'
+CELERY_ALWAYS_EAGER = True
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json']  # Ignore other content
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Paris'
 CELERY_ENABLE_UTC = True
-
 CELERY_TRACK_STARTED = True
 
 CELERYD_POOL_RESTARTS = True

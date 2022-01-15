@@ -16,24 +16,36 @@
                     <form id="launchBot" class="card" method="post" action="">
                         {% csrf_token %}
                         <div class="card-header">
-                            <h2 class="text-center">Lancer une exécution du robot version google ads attack</h2>
+                            <h2 class="text-center">Lancer une exécution du robot</h2>
                         </div>
-                        <div class="form-group">
-                            <label for="domaine">Nom de domaine</label>
-                            <input class="form-control" name="domaine" id="domaine">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="domaine">Nom de domaine</label>
+                                <input class="form-control" name="domaine" id="domaine">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="query">Requête à écrire</label>
+                                <input class="form-control" name="query" id="query">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="proxy">Nombre de proxy (max {{nb_proxy}})</label>
+                                <input class="form-control" type="number" max="{{proxy_nb}}" name="proxy" id="proxy">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="user_agent">Nombre de proxy (max {{nb_proxy}})</label>
+                                <select class="form-control" name="user_agent" id="user_agent">
+                                    {% for user in user_agents %}
+                                        <option value="{{user.nom}}">{{user.nom}}</option>
+                                    {% endfor %}
+                                </select>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="query">Online ?</label>
+                                <input class="form-check-input" type="checkbox" value="" id="headless" checked>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="query">Requête à écrire</label>
-                            <input class="form-control" name="query" id="query">
-                        </div>
-                        <div class="form-group">
-                            <label for="query">Nombre de proxy (max {{nb_proxy}})</label>
-                            <input class="form-control" type="number" max="{{proxy_nb}}" name="proxy" id="proxy">
-                        </div>
-                        <div class="form-group">
-                            <label for="query">Online ?</label>
-                            <input class="form-check-input" type="checkbox" value="" id="headless" checked>
-                        </div>
+
                         <br>
                         <button type="submit" class="btn btn-warning">Launch Bot</button>
                     </form>
