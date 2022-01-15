@@ -50,7 +50,6 @@ class BotClickerV1:
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument(f'--user-agent={user_agent}')
         capabilities = DesiredCapabilities.CHROME.copy()
-        capabilities["device"] = "iPhone 12 Pro"
         capabilities["real_mobile"] = True
 
         if self.online:

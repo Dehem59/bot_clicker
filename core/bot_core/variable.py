@@ -70,5 +70,42 @@ PROXY = {
     "port": "12323",
     "user": "7a363be8e335",
     "pass": "6ed753f876"
+  },
+
+    "custom3": {
+    "host": "141.11.32.117",
+    "port": "45785",
+    "user": "Selcarreleurlillepro",
+    "pass": "K2r2RsS"
+  },
+  "custom4": {
+    "host": "185.124.241.213",
+    "port": "12323",
+    "user": "7aaf0347e1f4",
+    "pass": "e2360eb217"
+  },
+    "custom5": {
+    "host": "185.124.241.188",
+    "port": "12323",
+    "user": "7aaf0347e1f4",
+    "pass": "e2360eb217"
+  },
+      "custom6": {
+    "host": "5.181.37.81",
+    "port": "12323",
+    "user": "7aaf0347e1f4",
+    "pass": "e2360eb217"
+  },
+        "custom7": {
+    "host": "5.181.36.49",
+    "port": "12323",
+    "user": "7aaf0347e1f4",
+    "pass": "e2360eb217"
+  },
+        "custom8": {
+    "host": "192.140.2.134",
+    "port": "12323",
+    "user": "7aaf0347e1f4",
+    "pass": "e2360eb217"
   }
 }

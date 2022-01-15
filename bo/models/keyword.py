@@ -7,7 +7,7 @@ class Keyword(models.Model):
 
     @property
     def google_correspondance(self):
-        correspondance = "+".join(self.nom.rstrip().split(" "))
+        correspondance = self.nom.rstrip().replace(" ", "+")
         return correspondance
 
     def __str__(self):
