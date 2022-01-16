@@ -2,7 +2,7 @@
 {% load static %}
 
     {% block page_info %}
-        <title>Execution du bot</title>
+        <title>Execution Automatique</title>
     {% endblock %}
 
     {% block content %}
@@ -13,7 +13,7 @@
                     <form id="launchBot" class="card" method="post" action="">
                         {% csrf_token %}
                         <div class="card-header">
-                            <h2 class="text-center">Lancer une exécution unitaire du robot</h2>
+                            <h2 class="text-center">Planifier une exécution</h2>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -21,26 +21,29 @@
                                 <input class="form-control" name="domaine" id="domaine">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="query">Requête à écrire</label>
-                                <input class="form-control" name="query" id="query">
+                                <select class="form-select" multiple aria-label="Selection mot clés" id="queries">
+                                  {% for keyword in keywords %}
+                                    <option value="{{keyword.pk}}">{{keyword.nom}}</option>
+                                  {% endfor %}
+                                </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="proxy">Nombre de proxy (max {{nb_proxy}})</label>
                                 <input class="form-control" type="number" min="1" max="{{proxy_nb}}" name="proxy" id="proxy">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="user_agent">Nombre de proxy (max {{nb_proxy}})</label>
+                                <label for="user_agent">Appareil</label>
                                 <select class="form-control" name="user_agent" id="user_agent">
                                     {% for user in user_agents %}
                                         <option value="{{user.nom}}">{{user.nom}}</option>
                                     {% endfor %}
                                 </select>
-
                             </div>
+
                         </div>
 
                         <br>
-                        <button type="submit" class="btn btn-warning mt-3">Launch Bot</button>
+                        <button type="submit" class="btn btn-success mt-3">Launch Bot</button>
                     </form>
                 </div>
             </div>
@@ -48,5 +51,5 @@
     {% endblock %}
 
     {% block js_scripts %}
-        <script src="{% static 'js/main.js' %}"></script>
+        <script src="{% static 'js/main-auto.js' %}"></script>
     {% endblock %}

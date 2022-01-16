@@ -3,17 +3,18 @@ $(document).ready(function () {
     $("#launchBot").submit((e)=>{
         e.preventDefault();
         var data = {
-            "query": $("#query").val(), 
+            "queries": $("#queries").val(),
             "proxy": $("#proxy").val(),
             "domaine" : $("#domaine").val(),
             "user_agent": $("#user_agent").val()
         }
 
+        console.log(data);
 
         $.ajax({
             type: "post",
             headers: {"X-CSRFToken": document.getElementsByName('csrfmiddlewaretoken')[0].value},
-            url: "/execution/",
+            url: "/execution-auto/",
             data: data,
             success: function (response) {
                 console.log(response);

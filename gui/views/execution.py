@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.views import View
 from django.shortcuts import render
 
-from bo.models import UserAgent
+from bo.models import UserAgent, Keyword
 from core.bot_core.bot_clicker_v1 import BotClickerV1
 from core.bot_core.variable import PROXY
 from bot_clicker.tasks import launch_bot
@@ -19,10 +19,11 @@ class ExecutionView(View):
     def post(self, request, *args, **kwargs):
         nb_proxy = int(request.POST["proxy"])
         query = request.POST["query"]
+        query_obj, _ = Keyword.objects.get_or_create(nom=query)
         domaine = request.POST["domaine"]
-        online = request.POST["headless"].lower() == "true"
+        online = False
         user_agent = UserAgent.objects.get(nom=request.POST["user_agent"])
-        params = {"query": query, "domaine": domaine, "online": online, "nb_proxy": nb_proxy,
+        params = {"query": query_obj.google_correspondance, "domaine": domaine, "online": online, "nb_proxy": nb_proxy,
                   "user_agent": user_agent.pk}
         # ref = launch_bot.delay(params)
         cpt = 0
