@@ -14,7 +14,8 @@ class ExecutionView(View):
 
     def get(self, request, *args, **kwargs):
         user_agents = UserAgent.objects.all()
-        return render(request, "gui/execution.html", {"nb_proxy": len(PROXY), "user_agents": user_agents})
+        return render(request, "gui/execution.html", {"nb_proxy": len(PROXY), "user_agents": user_agents, "nb_user_agent": user_agents.count()})
+
 
     def post(self, request, *args, **kwargs):
         nb_proxy = int(request.POST["proxy"])

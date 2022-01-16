@@ -1,6 +1,9 @@
 import os
 import random
+import smtplib
 import time
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 from django.db import transaction
 
@@ -13,6 +16,7 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from seleniumwire import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
+
 
 
 # GOOGLE_CHROME_BIN = os.getenv("GOOGLE_CHROME_BIN")
@@ -107,6 +111,34 @@ class BotClickerV1:
             s.requetes.add(r, through_defaults={'resultat': found,'proxy': self.proxy["host"], 'timescrolling':delay,
                                                 'positition_page':pos})
 
+    def login_google_account(self,login,password):
+
+        # msg = MIMEMultipart()
+        # msg['From'] = 'bertrandgaudreau8@gmail.com'
+        # msg['To'] = 'zakaria.hairane@gmail.com'
+        # msg['Subject'] = 'new mail'
+        # message =  "Brand news !! je te confirme ton accès"
+        # msg.attach(MIMEText(message))
+        # mailserver = smtplib.SMTP('smtp.gmail.com', 587)
+        # mailserver.ehlo()
+        # mailserver.starttls()
+        # mailserver.ehlo()
+        # mailserver.login('bertrandgaudreau8@gmail.com', 'Bertrand2911')
+        # mailserver.sendmail('bertrandgaudreau8@gmail.com', 'zakaria.hairane@gmail.com', msg.as_string())
+        #mailserver.quit()
+        self.driver.get("https://stackoverflow.com/users/login?ssrc=head&returnurl=https%3a%2f%2fstackoverflow.com%2f")
+        time.sleep(5000)
+        self.driver.find_element(By.CLASS_NAME, ".s-btn__google").click()
+        time.sleep(3)
+        self.driver.find_element(By.ID, "susi-modal-google-button").click()
+        self.driver.find_element(By.ID, "identifierNext").click()
+        time.sleep(3000)
+        self.driver.find_element(By.CSS_SELECTOR, "input[name=password]").send_keys(password)
+        time.sleep(3)
+        self.driver.find_element(By.ID, "passwordNext").click()
+        time.sleep(3)
+
+
 
     def accept_google_condition(self, nb_try=0):
         nb_try += 1
@@ -142,6 +174,8 @@ class BotClickerV1:
         i = 0
         found = False
         while i < 50 and not found:
+            self.login_google_account('bertrandgaudreau8@gmail.com','Bertrand2911')
+            time.sleep(3000)
             self.driver.get(f'https://www.google.com/search?q={self.query}&start={i}')
             i += 10
             time.sleep(1.5)

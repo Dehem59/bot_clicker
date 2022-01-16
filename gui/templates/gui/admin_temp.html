@@ -1,0 +1,56 @@
+{% extends "gui/base.html" %}
+{% load static %}
+
+{% block seo_tags %}
+        <title>Liste d'historique des requêtes</title>
+    {% endblock %}
+
+{% block content %}
+
+
+
+    <div class="row mt-5 table-responsive ">
+        <form id="candidate">
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th>Requete</th>
+                        <th>SiteWeb</th>
+                        <th>Resultat</th>
+                        <th>Date</th>
+                        <th>Proxy</th>
+                        <th>TimeScrolling</th>
+                        <th>Position Google</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    {% for aclicker in aclicker_list %}
+                    <tr>
+                        <td>{{aclicker.requete}}</td>
+                        <td>{{aclicker.siteweb}}</td>
+                        <td>{{aclicker.resultat}}</td>
+                        <td>{{aclicker.date_heure}}</td>
+                        <td>{{aclicker.proxy}} </td>
+                        <td>{{aclicker.timescrolling}}</td>
+                        <td>{{aclicker.positition_page}}</td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+            <div class="text-center">
+                <button type="submit" class="btn btn-warning">Candidater aux offres selectionnées</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block js_scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% endblock %}

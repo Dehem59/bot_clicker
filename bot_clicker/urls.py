@@ -20,3 +20,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("gui.urls")),
 ]
+
+admin.site.site_header = "BotClicker Admin"
+admin.site.site_title = "BotClicker Admin"
+admin.site.site_title = "BotClicker Admin"
+admin.site.index_title = "BotClicker Admin"
