@@ -13,6 +13,9 @@ class Aclicker(models.Model):
     timescrolling = models.IntegerField()
     positition_page = models.IntegerField()
 
+    class Meta:
+        verbose_name_plural = "Actions"
+        verbose_name = "Action"
 
 
 

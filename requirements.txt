@@ -32,6 +32,7 @@ hyperframe==6.0.1
 idna==3.3
 kaitaistruct==0.9
 kombu==5.2.3
+mysqlclient==2.1.0
 outcome==1.1.0
 packaging==21.3
 prompt-toolkit==3.0.24

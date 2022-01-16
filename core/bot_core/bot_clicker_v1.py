@@ -146,7 +146,7 @@ class BotClickerV1:
             try:
                 for i in range(10):
                     try:
-                        p = self.driver.find_elements(By.ID, "jYfXMb")
+                        p = self.driver.find_elements(By.CSS_SELECTOR, "#jYfXMb p")
                         last_offset = 0
                         for i in p:
                             loc = i.location
@@ -174,8 +174,8 @@ class BotClickerV1:
         i = 0
         found = False
         while i < 50 and not found:
-            self.login_google_account('bertrandgaudreau8@gmail.com','Bertrand2911')
-            time.sleep(3000)
+            # self.login_google_account('bertrandgaudreau8@gmail.com','Bertrand2911')
+            # time.sleep(3000)
             self.driver.get(f'https://www.google.com/search?q={self.query}&start={i}')
             i += 10
             time.sleep(1.5)

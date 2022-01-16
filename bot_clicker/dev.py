@@ -79,15 +79,14 @@ WSGI_APPLICATION = 'bot_clicker.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd7pncqjv279rdm',
-        'USER': 'kehhkpvphkfifj',
-        'PASSWORD': '4b54d7149eb2bc16cbd83aa3d3e74fee8766fdbfb86243155e84d77ececcf90e',
-        'HOST': 'ec2-52-209-111-18.eu-west-1.compute.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'u983464641_botclicker',
+        'USER': 'u983464641_admin_bot',
+        'PASSWORD': 'Jesuisbotclicker$10',
+        'HOST': '185.224.138.223',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
 }
 
