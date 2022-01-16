@@ -1,4 +1,5 @@
 import random
+import time
 
 from django.http import JsonResponse
 from django.views import View
@@ -27,6 +28,7 @@ class ExecutionAutoView(View):
         online = False
         user_agent = UserAgent.objects.get(nom=request.POST["user_agent"])
         keywords = Keyword.objects.filter(pk__in=queries)
+        delay = request.POST["delay"]
         # ref = launch_bot.delay(params)
         cpt = 0
         proxies = list(Proxy.objects.all())
@@ -48,6 +50,7 @@ class ExecutionAutoView(View):
                                            domain=domaine, user_agent=user_agent.definition, online=False)
                     res = tmp_bot.execute()
                     results["results"].append(res)
+                    time.sleep(delay)
                 except Exception as exc:
                     if "errors" not in results:
                         results["errors"] = [str(exc)]

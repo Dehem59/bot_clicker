@@ -6,7 +6,9 @@ $(document).ready(function () {
             "queries": $("#queries").val(),
             "proxy": $("#proxy").val(),
             "domaine" : $("#domaine").val(),
-            "user_agent": $("#user_agent").val()
+            "user_agent": $("#user_agent").val(),
+            "delay": $("#delay").val()
+
         }
 
         console.log(data);
