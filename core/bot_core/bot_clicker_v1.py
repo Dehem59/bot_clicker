@@ -26,7 +26,7 @@ MAX_TRY_GOOGLE = 2
 
 class BotClickerV1:
 
-    def __init__(self, proxy, query, domain, user_agent, online=True):
+    def __init__(self, proxy, query, domain, user_agent, google_ads=False, online=True):
         """
         init the bot clicker, user_agent is the description of an specific user agent
         """
@@ -35,7 +35,7 @@ class BotClickerV1:
         self.domain = domain
         self.online = online
         self.driver = self.init_webdriver(user_agent)
-
+        self.google_ads = google_ads
 
     def init_webdriver(self, user_agent):
 
@@ -85,6 +85,52 @@ class BotClickerV1:
             time.sleep(0.2)
         return False
 
+    def find_res_ads(self):
+        clicked_ads = []
+        last_offset = 0
+        cpt = 0
+        all_ads = self.driver.find_elements(By.CSS_SELECTOR, "div[aria-label=Annonces] .uEierd")
+        while cpt < len(all_ads):
+            # get ads at each loop to avoid stale element error (less efficient but don't fail)
+            all_ads = self.driver.find_elements(By.CSS_SELECTOR, "div[aria-label=Annonces] .uEierd")
+            annonce = all_ads[cpt]
+            clicked_ads.append(annonce.text)
+            cpt += 1
+            try:
+                actions = ActionChains(self.driver)
+                actions.move_to_element(annonce).perform()
+                time.sleep(0.5)
+            except:
+                loc = annonce.location
+                self.driver.execute_script(f"window.scrollTo({last_offset}, {loc['y']})")
+                last_offset = loc["y"]
+            try:
+                domain = annonce.find_element(By.CSS_SELECTOR, "span[role=text]")
+                link = annonce.find_element(By.CSS_SELECTOR, "[role=presentation]")
+                if self.domain not in domain.text:
+                    link.click()
+                    time.sleep(0.3)
+                    self.website_action()
+                    time.sleep(1.2)
+                    self.driver.execute_script("window.history.go(-1)")
+                    time.sleep(1.2)
+            except:
+                print(f"\n\n----- Dont find link for {annonce.text}-------------\n")
+                try:
+                    website = annonce.find_element(By.CSS_SELECTOR, "div.Qc4Zr")
+                    logging.info("[INFO_ADS] Call ads ==> found website to click")
+                    if "Accéder au site Web" in website.text:
+                        print("\t ===> click on website subads")
+                        website.click()
+                        time.sleep(0.5)
+                        self.website_action()
+                        time.sleep(0.2)
+                        self.driver.execute_script("window.history.go(-1)")
+                        time.sleep(1.1)
+                except:
+                    print("[ERROR] Definitively not found link \n")
+        return clicked_ads
+
     def website_action(self):
         """
 
@@ -92,7 +138,7 @@ class BotClickerV1:
         """
         last_offset = 0
         p = self.driver.find_elements(By.TAG_NAME, "p")
-        if len(p) > 2:
+        if len(p) > 8:
             for par in p:
                 loc = par.location
                 delay = random.choice(RANDOM_VARIABLE["delay"])
@@ -102,7 +148,7 @@ class BotClickerV1:
         else:
             for nb_scroll in range(21):
                 offset = random.choice(RANDOM_VARIABLE["scroll"])
-                delay = random.choice(RANDOM_VARIABLE["delay_debug"])
+                delay = random.choice(RANDOM_VARIABLE["delay"])
                 self.driver.execute_script(f"window.scrollTo({last_offset}, {last_offset + offset})")
                 time.sleep(delay)
                 last_offset += offset
@@ -174,25 +220,33 @@ class BotClickerV1:
             return False
 
     def execute(self):
-        i = 0
-        found = False
-        while i < 50 and not found:
-            # self.login_google_account('bertrandgaudreau8@gmail.com','Bertrand2911')
-            # time.sleep(3000)
-            self.driver.get(f'https://www.google.com/search?q={self.query}&start={i}')
-            i += 10
-            time.sleep(1.5)
-            status_google = self.accept_google_condition()
-            if not status_google:
-                print("Google condition was not accepted or not present ...")
-            if self.find_res_natural():
-                time_before = time.time()
-                self.website_action()
-                time_after = time.time()
-                delay = time_after-time_before
-                self.database_maj("Found",delay, i//10)
-                found = True
-        if not found:
-            self.database_maj("NotFound", 0, i)
-            self.driver.close()
-        return found
+        if self.google_ads:
+            self.driver.get(f'https://www.google.com/search?q={self.query}')
+            time.sleep(1.2)
+            self.accept_google_condition()
+            time.sleep(0.71)
+            res = self.find_res_ads()
+            return res
+        else:
+            i = 0
+            found = False
+            while i < 50 and not found:
+                # self.login_google_account('bertrandgaudreau8@gmail.com','Bertrand2911')
+                # time.sleep(3000)
+                self.driver.get(f'https://www.google.com/search?q={self.query}&start={i}')
+                i += 10
+                time.sleep(1.5)
+                status_google = self.accept_google_condition()
+                if not status_google:
+                    print("Google condition was not accepted or not present ...")
+                if self.find_res_natural():
+                    time_before = time.time()
+                    self.website_action()
+                    time_after = time.time()
+                    delay = time_after-time_before
+                    self.database_maj("Found",delay, i//10)
+                    found = True
+            if not found:
+                self.database_maj("NotFound", 0, i)
+                self.driver.close()
+            return found

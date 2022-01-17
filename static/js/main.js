@@ -6,9 +6,11 @@ $(document).ready(function () {
             "query": $("#query").val(), 
             "proxy": $("#proxy").val(),
             "domaine" : $("#domaine").val(),
-            "user_agent": $("#user_agent").val()
+            "user_agent": $("#user_agent").val(),
+            "ads_mode": $("#ads").is(":checked")
         }
 
+        console.log(data);
 
         $.ajax({
             type: "post",

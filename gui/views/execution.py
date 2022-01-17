@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.views import View
 from django.shortcuts import render
 
-from bo.models import UserAgent, Keyword
+from bo.models import UserAgent, Keyword, Proxy
 from core.bot_core.bot_clicker_v1 import BotClickerV1
 from core.bot_core.variable import PROXY
 from bot_clicker.tasks import launch_bot
@@ -14,7 +14,7 @@ class ExecutionView(View):
 
     def get(self, request, *args, **kwargs):
         user_agents = UserAgent.objects.all()
-        return render(request, "gui/execution.html", {"nb_proxy": len(PROXY), "user_agents": user_agents, "nb_user_agent": user_agents.count()})
+        return render(request, "gui/execution.html", {"nb_proxy": len(Proxy.objects.all()), "user_agents": user_agents})
 
 
     def post(self, request, *args, **kwargs):
@@ -23,14 +23,16 @@ class ExecutionView(View):
         query_obj, _ = Keyword.objects.get_or_create(nom=query)
         domaine = request.POST["domaine"]
         online = False
+        ads_mode = request.POST["ads_mode"].lower() == "true"
         user_agent = UserAgent.objects.get(nom=request.POST["user_agent"])
         params = {"query": query_obj.google_correspondance, "domaine": domaine, "online": online, "nb_proxy": nb_proxy,
                   "user_agent": user_agent.pk}
         # ref = launch_bot.delay(params)
         cpt = 0
-        for name, proxy in PROXY.items():
+        for proxy_obj in Proxy.objects.filter(est_actif=True):
+            proxy = {"host": proxy_obj.host, "port": proxy_obj.port, "user": proxy_obj.user, "pass": proxy_obj.password}
             try:
-                tmp_bot = BotClickerV1(proxy=proxy, query=params["query"], domain=params["domaine"],
+                tmp_bot = BotClickerV1(proxy=proxy, query=params["query"], domain=params["domaine"], google_ads=ads_mode,
                                        user_agent=user_agent.definition, online=params["online"])
                 res = tmp_bot.execute()
                 if not res:
