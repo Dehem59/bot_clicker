@@ -26,7 +26,7 @@ MAX_TRY_GOOGLE = 2
 
 class BotClickerV1:
 
-    def __init__(self, proxy, query, domain, user_agent, google_ads=False, online=True):
+    def __init__(self, proxy, query, domain, user_agent, google_ads=False, online=True, coordinate=None):
         """
         init the bot clicker, user_agent is the description of an specific user agent
         """
@@ -35,10 +35,11 @@ class BotClickerV1:
         self.domain = domain
         self.online = online
         self.google_ads = google_ads
-        self.driver = self.init_webdriver(user_agent)
+        if coordinate is None:
+            coordinate = {"latitude": 41.8781, "longitude": -87.6298, "accuracy": 100}
+        self.driver = self.init_webdriver(user_agent, coordinate)
 
-
-    def init_webdriver(self, user_agent):
+    def init_webdriver(self, user_agent, coordinate):
 
         options = {
             'proxy': {
@@ -64,6 +65,7 @@ class BotClickerV1:
                                       chrome_options=chrome_options, seleniumwire_options=options)
             driver.set_window_position(50, 0)
             driver.set_window_size(390, 844)
+            driver.execute_cdp_cmd("Emulation.setGeolocationOverride", coordinate)
         return driver
 
 
@@ -143,15 +145,15 @@ class BotClickerV1:
         time.sleep(3)
 
     def find_res_ads(self):
-        ads_clicked = []
         last_offset = 0
+        clicked_ads = []
         cpt = 0
         all_ads = self.driver.find_elements(By.CSS_SELECTOR, "div[aria-label=Annonces] .uEierd")
         while cpt < len(all_ads):
             # get ads at each loop to avoid stale element error (less efficient but don't fail)
             all_ads = self.driver.find_elements(By.CSS_SELECTOR, "div[aria-label=Annonces] .uEierd")
             annonce = all_ads[cpt]
-            ads_clicked.append(annonce.text)
+            clicked_ads.append(annonce.text)
             cpt += 1
             try:
                 actions = ActionChains(self.driver)
@@ -161,6 +163,7 @@ class BotClickerV1:
                 loc = annonce.location
                 self.driver.execute_script(f"window.scrollTo({last_offset}, {loc['y']})")
                 last_offset = loc["y"]
+                time.sleep(0.37)
             try:
                 domain = annonce.find_element(By.CSS_SELECTOR, "span[role=text]")
                 link = annonce.find_element(By.CSS_SELECTOR, "[role=presentation]")
@@ -186,7 +189,7 @@ class BotClickerV1:
                         time.sleep(1.1)
                 except:
                     print("[ERROR] Definitively not found link \n")
-        return True, ads_clicked
+        return True, clicked_ads
 
     def accept_google_condition(self, nb_try=0):
         nb_try += 1
@@ -209,7 +212,6 @@ class BotClickerV1:
                 time.sleep(1)
                 # Accept google condition
                 accept = self.driver.find_element(By.CSS_SELECTOR, "button#L2AGLb")
-                print(accept.text)
                 accept.click()
                 return True
             except:
@@ -223,7 +225,15 @@ class BotClickerV1:
             self.driver.get(f'https://www.google.com/search?q={self.query}')
             time.sleep(1.4)
             self.accept_google_condition()
-            time.sleep(0.7)
+            time.sleep(1)
+            try:
+                # locate me (activate the google location)
+                locate = self.driver.find_element(By.TAG_NAME, "update-location")
+                if "position" in locate.find_element(By.CSS_SELECTOR, "div").text:
+                    locate.click()
+                    time.sleep(4)
+            except:
+                print("No Location was provided")
             status, proof = self.find_res_ads()
             return status, proof
         else:
@@ -236,6 +246,17 @@ class BotClickerV1:
                 i += 10
                 time.sleep(1.5)
                 status_google = self.accept_google_condition()
+                time.sleep(1.2)
+
+                try:
+                    # locate me (activate the google location)
+                    locate = self.driver.find_element(By.TAG_NAME, "update-location")
+                    if "position" in locate.find_element(By.CSS_SELECTOR, "div").text:
+                        locate.click()
+                        time.sleep(4)
+                except:
+                    pass
+
                 if not status_google:
                     print("Google condition was not accepted or not present ...")
                 if self.find_res_natural():

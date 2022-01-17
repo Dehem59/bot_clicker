@@ -32,6 +32,7 @@ class CommonExecView(View):
         cpt = 0
         for proxy_obj in Proxy.objects.filter(est_actif=True):
             proxy = {"host": proxy_obj.host, "port": proxy_obj.port, "user": proxy_obj.user, "pass": proxy_obj.password}
+            print(f"------ EXECUTION AVEC {proxy} --------------")
             try:
                 tmp_bot = BotClickerV1(proxy=proxy, query=params["query"], domain=params["domaine"], google_ads=ads_mode,
                                        user_agent=user_agent.definition, online=params["online"])
@@ -78,18 +79,21 @@ class CommonAutoView(View):
                 current_proxy = random.choice(proxies)
             seen.add(current_proxy.host)
             for keyword in keywords:
+                time.sleep(1.5)
                 try:
                     dict_proxy = {
                         "host": current_proxy.host, "port": current_proxy.port, "user": current_proxy.user,
                         "pass": current_proxy.password
                     }
+                    print(f"---- EXECUTION AVEC {dict_proxy} ----")
                     tmp_bot = BotClickerV1(proxy=dict_proxy, query=keyword.google_correspondance,
                                            domain=domaine, user_agent=user_agent.definition, google_ads=google_ads,
                                            online=False)
-                    res = tmp_bot.execute()
+                    status, res = tmp_bot.execute()
+                    print("Resultat fait", res)
                     results["results"].append(res)
-                    time.sleep(delay)
                 except Exception as exc:
+                    print(exc.args)
                     if "errors" not in results:
                         results["errors"] = [str(exc)]
                     else:
