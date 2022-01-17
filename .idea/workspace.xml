@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="fa1e7ec4-b9ac-49df-8450-0d80db951bd3" name="Default Changelist" comment="" />
+=======
+    <list default="true" id="fa1e7ec4-b9ac-49df-8450-0d80db951bd3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/bot_core/bot_clicker_v1.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/bot_core/bot_clicker_v1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui/templates/gui/execution.html" beforeDir="false" afterPath="$PROJECT_DIR$/gui/templates/gui/execution.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui/views/execution.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/views/execution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/main.js" afterDir="false" />
+    </list>
+>>>>>>> parent of f0956c0 (correct history and add google ads mode)
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,17 +28,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/bo/models/aclicker.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/static/js/main-auto.js" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/core/bot_core/bot_clicker_v1.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/gui/views/__init__.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/gui/views/exec_ads.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/gui/views/execution.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/gui/templates/gui/execution.html" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/static/js/main.js" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/gui/templates/gui/exec_ads.html" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="23NFWOkjpPGwQVUb7BtZIw82cnV" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
