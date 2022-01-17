@@ -1,15 +1,12 @@
 import os
 import random
-import smtplib
 import time
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
+
 
 from django.db import transaction
 
 from bo.models.siteweb import SiteWeb
 from bo.models.requete import Requete
-from bo.models.aclicker import Aclicker
 
 from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.common.by import By
@@ -71,9 +68,15 @@ class BotClickerV1:
 
     def find_res_natural(self):
         result = self.driver.find_element(By.ID, "rso")
+        last_offset = 0
         for res in result.find_elements(By.CSS_SELECTOR, ".uUPGi"):
-            actions = ActionChains(self.driver)
-            actions.move_to_element(res).perform()
+            try:
+                actions = ActionChains(self.driver)
+                actions.move_to_element(res).perform()
+            except:
+                self.driver.execute_script(f"window.scrollTo({last_offset}, {res.location['y']})")
+            time.sleep(0.21)
+            last_offset = res.location["y"]
             presentation = res.find_element(By.CSS_SELECTOR, "a[role=presentation]")
             if self.domain in presentation.get_attribute("href"):
                 presentation.click()
@@ -106,7 +109,7 @@ class BotClickerV1:
 
     def database_maj(self,found,delay,pos):
         with transaction.atomic():
-            r=Requete.objects.create(libelle= self.query)
+            r=Requete.objects.create(libelle=self.query)
             s,status=SiteWeb.objects.get_or_create(url=self.driver.current_url)
             s.requetes.add(r, through_defaults={'resultat': found,'proxy': self.proxy["host"], 'timescrolling':delay,
                                                 'positition_page':pos})
@@ -155,7 +158,7 @@ class BotClickerV1:
                         # read more to make accept button visible
                         read_more = self.driver.find_element(By.ID, "KByQx")
                         read_more.click()
-                        time.sleep(0.1)
+                        time.sleep(0.15)
                     except:
                         pass
                 time.sleep(1)

@@ -81,12 +81,9 @@ WSGI_APPLICATION = 'bot_clicker.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'u983464641_botclicker',
-        'USER': 'u983464641_admin_bot',
-        'PASSWORD': 'Jesuisbotclicker$10',
-        'HOST': '185.224.138.223',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite', # This is where you put the name of the db file.
+                 # If one doesn't exist, it will be created at migration time.
     }
 }
 

@@ -17,6 +17,9 @@ class Aclicker(models.Model):
         verbose_name_plural = "Actions"
         verbose_name = "Action"
 
+    def __str__(self):
+        return f"Exécution {self.requete} - {self.siteweb}"
+
 
 
 
