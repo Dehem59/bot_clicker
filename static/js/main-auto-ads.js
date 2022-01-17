@@ -5,13 +5,13 @@ $(document).ready(function () {
         $("body nav").after($(`<div class="container"><div class="row">
         <img id='loader' src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Loader.gif/480px-Loader.gif'
         class='img-fluid mx-auto text-center col-md-2'/></div></div>`));
-
-        var data = {
-            "query": $("#query").val(),
+          var data = {
+            "queries": $("#queries").val(),
             "proxy": $("#proxy").val(),
             "domaine" : $("#domaine").val(),
             "user_agent": $("#user_agent").val(),
-            "ads_mode": $("#ads").is(":checked")
+            "delay": $("#delay").val()
+
         }
 
         console.log(data);
@@ -19,7 +19,7 @@ $(document).ready(function () {
         $.ajax({
             type: "post",
             headers: {"X-CSRFToken": document.getElementsByName('csrfmiddlewaretoken')[0].value},
-            url: "/execution-ads/",
+            url: "/execution-auto-ads/",
             data: data,
             success: function (response) {
                 console.log(response);

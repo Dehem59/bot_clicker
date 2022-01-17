@@ -9,5 +9,10 @@ class Proxy(models.Model):
     password = models.CharField(max_length=200)
     est_actif = models.BooleanField(default=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['host', 'password'], name='unique_host_password_couple')
+        ]
+
     def __str__(self):
         return f"{self.host}:{self.port}"

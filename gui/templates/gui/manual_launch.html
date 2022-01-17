@@ -1,0 +1,52 @@
+{% extends 'gui/base.html' %}
+{% load static %}
+
+    {% block page_info %}
+        <title>Execution du bot</title>
+    {% endblock %}
+
+    {% block content %}
+
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-7 mx-auto">
+                    <form id="launchBot" class="card" method="post" action="">
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h2 class="text-center">Lancer une exécution manuelle</h2>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="proxy">Proxy a lancer</label>
+                               <select class="form-control" name="proxy" id="proxy">
+                                    {% for proxy in proxies %}
+                                        <option value="{{proxy.pk}}">Host: {{proxy.host}} - Password: {{proxy.password}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="user_agent">User-agent</label>
+                                <select class="form-control" name="user_agent" id="user_agent">
+                                    {% for user in user_agents %}
+                                        <option value="{{user.pk}}">{{user.nom}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="user_agent">Durée d'exécution du robot (temps en seconde ou la fenetre reste ouverte) </label>
+                                <input type="number" min="15" max="60000" value="30" name="duree" id="duree">
+                            </div>
+<!--                            <div class="form-group col-md-8 mx-auto">-->
+<!--                                <label>Mode Google Ads ?</label>-->
+<!--                                <input type="checkbox" checked data-toggle="toggle" id="ads" data-size="xs">-->
+<!--                            </div>-->
+                        </div>
+
+                        <br>
+                        <button type="submit" class="btn btn-warning mt-3">Launch Bot</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+

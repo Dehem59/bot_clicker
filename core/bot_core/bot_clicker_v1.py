@@ -93,7 +93,7 @@ class BotClickerV1:
         """
         last_offset = 0
         p = self.driver.find_elements(By.TAG_NAME, "p")
-        if len(p) > 2:
+        if len(p) > 7:
             for par in p:
                 loc = par.location
                 delay = random.choice(RANDOM_VARIABLE["delay"])
@@ -103,7 +103,7 @@ class BotClickerV1:
         else:
             for nb_scroll in range(21):
                 offset = random.choice(RANDOM_VARIABLE["scroll"])
-                delay = random.choice(RANDOM_VARIABLE["delay_debug"])
+                delay = random.choice(RANDOM_VARIABLE["delay"])
                 self.driver.execute_script(f"window.scrollTo({last_offset}, {last_offset + offset})")
                 time.sleep(delay)
                 last_offset += offset
@@ -186,7 +186,7 @@ class BotClickerV1:
                         time.sleep(1.1)
                 except:
                     print("[ERROR] Definitively not found link \n")
-        return ads_clicked
+        return True, ads_clicked
 
     def accept_google_condition(self, nb_try=0):
         nb_try += 1
@@ -224,8 +224,8 @@ class BotClickerV1:
             time.sleep(1.4)
             self.accept_google_condition()
             time.sleep(0.7)
-            res = self.find_res_ads()
-            return res
+            status, proof = self.find_res_ads()
+            return status, proof
         else:
             i = 0
             found = False
@@ -241,11 +241,13 @@ class BotClickerV1:
                 if self.find_res_natural():
                     time_before = time.time()
                     self.website_action()
+                    proof = [p.text for p in self.driver.find_elements(By.TAG_NAME, "p")]
                     time_after = time.time()
                     delay = time_after-time_before
                     self.database_maj("Found",delay, i//10)
                     found = True
             if not found:
                 self.database_maj("NotFound", 0, i)
+                proof = ["site pas trouvé ==> no proof of work"]
                 self.driver.close()
-            return found
+            return found, proof
