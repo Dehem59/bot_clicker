@@ -28,7 +28,7 @@ class ExecutionAutoView(View):
         online = False
         user_agent = UserAgent.objects.get(nom=request.POST["user_agent"])
         keywords = Keyword.objects.filter(pk__in=queries)
-        delay = request.POST["delay"]
+        delay = int(request.POST["delay"])
         # ref = launch_bot.delay(params)
         cpt = 0
         proxies = list(Proxy.objects.all())

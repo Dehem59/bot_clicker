@@ -4,11 +4,9 @@ from django.shortcuts import render
 
 from bo.models import UserAgent, Keyword, Proxy
 from core.bot_core.bot_clicker_v1 import BotClickerV1
-from core.bot_core.variable import PROXY
-from bot_clicker.tasks import launch_bot
 
 
-class CommonView(View):
+class CommonExecView(View):
 
     http_method_names = ["get", "post", "patch"]
 

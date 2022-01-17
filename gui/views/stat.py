@@ -3,9 +3,6 @@ from django.views import View
 from django.shortcuts import render
 
 from bo.models import UserAgent, Aclicker
-from core.bot_core.bot_clicker_v1 import BotClickerV1
-from core.bot_core.variable import PROXY
-from bot_clicker.tasks import launch_bot
 
 
 class StatistiqueView(View):
