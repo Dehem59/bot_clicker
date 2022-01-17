@@ -5,24 +5,25 @@ from django.shortcuts import render
 from bo.models import UserAgent, Keyword, Proxy
 from core.bot_core.bot_clicker_v1 import BotClickerV1
 from core.bot_core.variable import PROXY
+from bot_clicker.tasks import launch_bot
 
 
-class ExecutionView(View):
+class CommonView(View):
 
     http_method_names = ["get", "post", "patch"]
 
-    def get(self, request, *args, **kwargs):
+    def get_process(self, request, template_name, *args, **kwargs):
         user_agents = UserAgent.objects.all()
-        return render(request, "gui/execution.html", {"nb_proxy": len(Proxy.objects.all()), "user_agents": user_agents})
+        return render(request, template_name, {"nb_proxy": len(Proxy.objects.all()), "user_agents": user_agents})
 
 
-    def post(self, request, *args, **kwargs):
+    def post_process(self, request, ads_mode, *args, **kwargs):
         nb_proxy = int(request.POST["proxy"])
         query = request.POST["query"]
         query_obj, _ = Keyword.objects.get_or_create(nom=query)
         domaine = request.POST["domaine"]
         online = False
-        ads_mode = request.POST["ads_mode"].lower() == "true"
+        ads_mode = ads_mode
         user_agent = UserAgent.objects.get(nom=request.POST["user_agent"])
         params = {"query": query_obj.google_correspondance, "domaine": domaine, "online": online, "nb_proxy": nb_proxy,
                   "user_agent": user_agent.pk}

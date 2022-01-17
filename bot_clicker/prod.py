@@ -141,26 +141,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-##
-# CELERY
-##
-
-CELERYD_HIJACK_ROOT_LOGGER = False
-
-# http://celery.readthedocs.org/en/latest/configuration.html#celery-redirect-stdouts-level
-CELERY_REDIRECT_STDOUTS = True # par défaut
-CELERY_REDIRECT_STDOUTS_LEVEL = 'DEBUG'
-
-BROKER_URL = 'redis://redistogo:1b73a25a42689cbfda1f0ff854009caa@soapfish.redistogo.com:11662/'
-CELERY_RESULT_BACKEND = 'redis://redistogo:1b73a25a42689cbfda1f0ff854009caa@soapfish.redistogo.com:11662/'
-CELERY_ALWAYS_EAGER = True
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_ACCEPT_CONTENT = ['json']  # Ignore other content
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Europe/Paris'
-CELERY_ENABLE_UTC = True
-CELERY_TRACK_STARTED = True
-
-CELERYD_POOL_RESTARTS = True
 django_heroku.settings(locals())
